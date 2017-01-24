@@ -1,2 +1,2 @@
 # CRUMBS
-Robust, simpel to use GPS data loggers
+Robust, simple to use GPS data loggers
