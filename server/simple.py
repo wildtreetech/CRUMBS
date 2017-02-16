@@ -5,7 +5,7 @@ import shelve
 import base64
 from io import BytesIO
 from os import path
-from cPickle import HIGHEST_PROTOCOL
+from pickle import HIGHEST_PROTOCOL
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -40,30 +40,61 @@ def close_connection(exception):
         db.close()
 
 
-@app.route('/data.png')
-def hello_world():
+def _make_plot(db, key):
+    obs = db['measurements']
+    x = [o['time'] for o in obs]
+    idx = np.argsort(x)
+    x = np.array(x)
+    y = np.array([o[key] for o in obs])
+
     fig = plt.figure()
     ax = fig.add_subplot(111)
 
-    X = np.linspace(0, 10, 30)
-    Y = X * X
-    ax.plot(X, Y)
+    ax.plot(x[idx], y[idx])
+    ax.set_xlabel("time (s)")
+    if key == 'temp':
+        ax.set_ylabel("Temperature (deg C)")
+
+    if key == 'humidity':
+        ax.set_ylabel("Humidity (%)")
 
     figfile = BytesIO()
     plt.savefig(figfile, format='png')
     figfile.seek(0)
     figdata_png = base64.b64encode(figfile.getvalue())
-    result = figdata_png
+    result = figdata_png.decode('ascii')
     return render_template_string(
         '<img src="data:image/png;base64,{{ result }}" width="500">',
         result=result)
 
 
+@app.route('/temp.png')
+def temperature_plot():
+    db = get_db()
+    return _make_plot(db, 'temp')
+
+
+@app.route('/humidity.png')
+def humidity_plot():
+    db = get_db()
+    return _make_plot(db, 'humidity')
+
+
+@app.route('/dashboard')
+def dashboard():
+    db = get_db()
+
+    s = _make_plot(db, 'temp')
+    s += _make_plot(db, 'humidity')
+
+    return s
+
+
 @app.route('/sensor', methods=['POST'])
 def post_sensor_data():
     db = get_db()
-    db['measurements'].append(json.loads(request.data))
-    return json.dumps(db['measurements'])
+    db['measurements'].append(json.loads(request.data.decode('ascii')))
+    return "OK"#json.dumps(db['measurements'])
 
 
 @app.route('/data', methods=['GET'])
