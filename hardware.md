@@ -9,7 +9,7 @@ operate without requiring a human to remember that it is there. It is the
 backup system so trading features for robustness is a good trade off.
 
 ## Electronics
-The current design is based on combining a ESP8266 and a GPS module.
+The current design is based on combining a [ESP8266 and a GPS module](https://cdn.rawgit.com/wildtreetech/CRUMBS/master/media/ESP8266-and-GPS.jpg).
 
 Hardware in hand for prototyping:
 * [Adafruit Feather ESP8266](https://www.adafruit.com/product/2821)
