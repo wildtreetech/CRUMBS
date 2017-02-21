@@ -18,11 +18,11 @@ Hardware in hand for prototyping:
 These are expensive but easy to obtain and of known quality.
 
 Undecided components:
-* battery
-* SD card reader
+* battery ([LiPo from Adafruit](https://www.adafruit.com/product/258), capacity?)
+* SD card reader ([Adafruit](https://www.adafruit.com/product/254), or [RobotShop](http://www.robotshop.com/eu/en/micro-sd-breakout-board.html?gclid=Cj0KEQiA56_FBRDYpqGa2p_e1MgBEiQAVEZ6-2htR87RpM-ml2_4WOqBBEv1aE29_P1kFiN2ci4KYP4aAsGi8P8HAQ)
 * interface to motorbike 12V and recharging of internal battery
 
 
 ## Case
 There is no design yet. It needs to safely house all the components, and
-safely (re)attach to a motorbike of unknown brand.
+safely (re)attach to a motorbike of unknown brand. See [#4](https://github.com/wildtreetech/CRUMBS/issues/4) for ideas.
